@@ -23,9 +23,9 @@
 hs_err_pid*
 
 #ignore idea files
-*.idea/*
-*.iml
+bank-system/.idea/*
+bank-system/*.iml
 
 #ignore maven compilation files
-*/target/*
+bank-system/target/*
 

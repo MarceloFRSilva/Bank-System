@@ -10,5 +10,4 @@ public class Display {
         System.out.println("3 - Delete Account");
         System.out.println("4 - Exit Application");
     }
-
 }

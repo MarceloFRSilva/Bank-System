@@ -8,29 +8,36 @@ import java.net.Socket;
 
 public class ServerCommunicationHandler extends Thread {
 
-    private static ServerSocket serverSocket;
+    private static String LOGIN_ID = "1";
+    private static Socket socket;
 
-    public ServerCommunicationHandler(ServerSocket serverSocket) {
-        this.serverSocket = serverSocket;
+    public ServerCommunicationHandler(Socket socket) {
+        this.socket = socket;
     }
 
     @Override
     public void run() {
         String received;
         DataInputStream dis;
-        while(true){
-            try{
-                Socket socket = serverSocket.accept();
-                dis = new DataInputStream(socket.getInputStream());
-                received = new CommunicationLibrary().getMessage(dis);
-                System.out.println(received);
-                DataOutputStream dout = new DataOutputStream(socket.getOutputStream());
-                new CommunicationLibrary().sendMessage("Message", dout);
-            } catch(IOException e){
-                break;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        System.out.println("Chega aqui");
+        try{
+            dis = new DataInputStream(socket.getInputStream());
+            received = new CommunicationLibrary().getMessage(dis);
+            System.out.println("Aqui estamos 3");
+            handleRequest(received);
+            DataOutputStream dout = new DataOutputStream(socket.getOutputStream());
+            new CommunicationLibrary().sendMessage("Message", dout);
+            dout.close();
+        } catch(IOException e){
+            System.out.println("Node exited.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void handleRequest(String received){
+        if(received.equals(LOGIN_ID)){
+            System.out.println("The login request was sent to the server");
         }
     }
 }

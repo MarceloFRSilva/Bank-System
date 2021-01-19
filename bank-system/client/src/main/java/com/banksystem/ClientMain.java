@@ -7,20 +7,9 @@ import java.io.InputStreamReader;
 
 public class ClientMain {
 
+    private static int port = 6666;
+
     public static void main(final String[] args) {
-        Display.firstUserMenuDisplay();
-        UserInterfaceMenu.userInterfaceLauncher(getUserInput());
-
-    }
-
-    private static String getUserInput(){
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String userInput = "";
-        try {
-            userInput = reader.readLine();
-        } catch (IOException e) {
-            System.out.println("Something went wrong. \nPlease verify your network connectivity and try again later.");
-        }
-        return userInput;
+        UserInterfaceMenu.userInterfaceLauncher();
     }
 }

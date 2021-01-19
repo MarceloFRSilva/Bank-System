@@ -12,7 +12,8 @@ public class ServerMain {
     public static void main(final String[] args) {
         System.out.println("Aqui!!");
 
-        try {
+        ServerCommunication.receiveData();
+        /*try {
             ServerSocket ss = new ServerSocket(port);
             Socket s = ss.accept(); //establishes connection
             DataInputStream dis = new DataInputStream(s.getInputStream());
@@ -21,6 +22,7 @@ public class ServerMain {
             s.close();
         } catch (Exception e) {
             System.out.println(e);
-        }
+        }*/
     }
+
 }

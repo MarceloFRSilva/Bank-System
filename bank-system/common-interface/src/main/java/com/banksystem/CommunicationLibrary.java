@@ -28,10 +28,18 @@ public class CommunicationLibrary {
         out.flush();
     }
 
-    public static String getMessage(DataInputStream in) throws IOException {
-        System.out.println("Hi!!");
+    public void sendMessage(String msg, DataOutputStream out) throws Exception {
+        out.writeUTF(msg);
+        out.flush();
+    }
+
+    public String getMessage(DataInputStream in) throws IOException {
         String response = in.readUTF();
-        System.out.println(response);
+        return response;
+    }
+
+    public String getMessage() throws IOException {
+        String response = in.readUTF();
         return response;
     }
 

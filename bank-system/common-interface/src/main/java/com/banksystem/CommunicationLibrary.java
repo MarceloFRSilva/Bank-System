@@ -34,13 +34,11 @@ public class CommunicationLibrary {
     }
 
     public String getMessage(DataInputStream in) throws IOException {
-        String response = in.readUTF();
-        return response;
+        return in.readUTF();
     }
 
     public String getMessage() throws IOException {
-        String response = in.readUTF();
-        return response;
+        return in.readUTF();
     }
 
     public void stopConnection() throws IOException {
@@ -49,4 +47,7 @@ public class CommunicationLibrary {
         clientSocket.close();
     }
 
+    public Socket getSocket() {
+        return clientSocket;
+    }
 }

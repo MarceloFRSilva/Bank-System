@@ -19,12 +19,14 @@ public class ServerCommunication {
         }
         System.out.println("Server is online and read to receive requests.");
         while(true) {
+            System.out.println("Loop antes da thread");
             try {
                 Socket socket = serverSocket.accept();
                 System.out.println(socket.getInetAddress() + "  " + socket.getPort());
                 DataInputStream dis = new DataInputStream(socket.getInputStream());
                 DataOutputStream dout = new DataOutputStream(socket.getOutputStream());
-                Thread t = new ServerCommunicationHandler(socket, dis, dout);
+                CommunicationLibrary comm = new CommunicationLibrary();
+                Thread t = new ServerCommunicationHandler(socket, dis, dout, comm);
                 //System.out.println("Number of active threads from the given thread: " + Thread.activeCount());
                 t.start();
             } catch (IOException e) {

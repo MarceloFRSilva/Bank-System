@@ -8,14 +8,16 @@ import java.net.Socket;
 public class ServerCommunicationHandler extends Thread {
 
     private static final String LOGIN_ID = "Login request";
-    private static Socket socket;
-    private static DataInputStream dis;
-    private static DataOutputStream dout;
+    private Socket socket;
+    private DataInputStream dis;
+    private DataOutputStream dout;
+    private CommunicationLibrary comm;
 
-    public ServerCommunicationHandler(Socket socket, DataInputStream dis, DataOutputStream dout) {
+    public ServerCommunicationHandler(Socket socket, DataInputStream dis, DataOutputStream dout, CommunicationLibrary comm) {
         this.socket = socket;
         this.dis = dis;
         this.dout = dout;
+        this.comm = comm;
     }
 
     @Override
@@ -23,8 +25,9 @@ public class ServerCommunicationHandler extends Thread {
         System.out.println("New thread launched. Thread count: " + Thread.activeCount());
         String received;
         while(!socket.isClosed()) {
+            System.out.println("Loop na thread");
             try {
-                received = new CommunicationLibrary().getMessage(dis);
+                received = comm.getMessage(dis);
                 handleRequest(received);
             } catch (IOException e) {
                 System.out.println("Node exited.");
@@ -40,7 +43,7 @@ public class ServerCommunicationHandler extends Thread {
         if(received.equals(LOGIN_ID)){
             System.out.println("The login request was sent to the server");
             try {
-                new CommunicationLibrary().sendMessage("Ok, Login Handled", dout);
+                comm.sendMessage("Ok, Login Handled", dout);
             } catch (Exception e) {
                 e.printStackTrace();
             }

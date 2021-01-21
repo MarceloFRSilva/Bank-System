@@ -8,6 +8,7 @@ public class UserInterfaceMenu {
 
     private static int port = 6666;
     private static final String LOGIN_ID = "Login request";
+    private static final String EXIT_ID = "Exit request";
 
     public static void userInterfaceLauncher(){
         CommunicationLibrary commLibrary = new CommunicationLibrary();
@@ -18,20 +19,13 @@ public class UserInterfaceMenu {
                 continue;
             }
         }
+        Display.firstUserMenuDisplay();
+        String option = getUserInput();
         while(true) {
+            processRequest(option, commLibrary);
             Display.firstUserMenuDisplay();
-            try {
-                String option = getUserInput();
-                processRequest(option, commLibrary);
-            } catch (Exception e) {
-                System.out.println(e);
-            }
+            option = getUserInput();
         }
-        /*try {
-            commLibrary.stopConnection();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 
     private static String getUserInput(){
@@ -51,6 +45,20 @@ public class UserInterfaceMenu {
                 commLibrary.sendMessage(LOGIN_ID);
                 String received = commLibrary.getMessage();
                 System.out.println(received);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if(option.equals("0")) {
+            try {
+                commLibrary.sendMessage(EXIT_ID);
+                try {
+                    commLibrary.stopConnection();
+                    System.out.println("Closing application. Thanks for using New Bank.");
+                    System.exit(0);
+                } catch (IOException e) {
+                    System.out.println("Connection closed. Exiting...");
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

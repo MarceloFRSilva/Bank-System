@@ -27,13 +27,11 @@ public class ServerCommunication {
                 DataOutputStream dout = new DataOutputStream(socket.getOutputStream());
                 CommunicationLibrary comm = new CommunicationLibrary();
                 Thread t = new ServerCommunicationHandler(socket, dis, dout, comm);
-                //System.out.println("Number of active threads from the given thread: " + Thread.activeCount());
                 t.start();
             } catch (IOException e) {
                 System.out.println("Something went wrong, try again.");
                 System.exit(0);
             }
-            System.out.println("The new thread count is: " + Thread.activeCount());
         }
     }
 }

@@ -8,11 +8,11 @@ import java.sql.Statement;
 
 public class DataBaseManagement {
 
-    public static void testDB(){
+    private static String user = "root";
+    private static String password = "password";
 
+    public static void createNewUser(){
         String url = "jdbc:mysql://localhost:3306/test?bank_system=false";
-        String user = "root";
-        String password = "password";
 
         String query = "SELECT VERSION()";
 

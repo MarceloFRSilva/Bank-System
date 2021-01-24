@@ -9,5 +9,6 @@ public class Display {
         System.out.println("2 - Create New Account");
         System.out.println("3 - Delete Account");
         System.out.println("0 - Exit Application");
+        System.out.print("Option: ");
     }
 }

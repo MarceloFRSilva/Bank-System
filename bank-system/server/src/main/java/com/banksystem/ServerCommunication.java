@@ -1,8 +1,6 @@
 package com.banksystem;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -19,12 +17,12 @@ public class ServerCommunication {
         }
         System.out.println("Server is online and read to receive requests.");
         while(true) {
-            System.out.println("Loop antes da thread");
             try {
                 Socket socket = serverSocket.accept();
                 System.out.println(socket.getInetAddress() + "  " + socket.getPort());
-                DataInputStream dis = new DataInputStream(socket.getInputStream());
-                DataOutputStream dout = new DataOutputStream(socket.getOutputStream());
+                InputStream inputStream = socket.getInputStream();
+                ObjectInputStream dis = new ObjectInputStream(inputStream);
+                ObjectOutputStream dout = new ObjectOutputStream(socket.getOutputStream());
                 CommunicationLibrary comm = new CommunicationLibrary();
                 Thread t = new ServerCommunicationHandler(socket, dis, dout, comm);
                 t.start();

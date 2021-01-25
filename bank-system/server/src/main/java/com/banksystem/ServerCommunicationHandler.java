@@ -12,7 +12,7 @@ public class ServerCommunicationHandler extends Thread {
     private static final String REGISTER_ID = "REGISTER_ID";
     private static final String EXIT_ID = "EXIT_ID";
     private static final String OK_ID = "OK_ID";
-
+    private static final String ERROR_ID = "ERROR_ID";
 
     private Socket socket;
     private ObjectInputStream dis;
@@ -52,8 +52,15 @@ public class ServerCommunicationHandler extends Thread {
         if(received.getText().equals(LOGIN_ID)){
             System.out.println("The login request was sent to the server");
             try {
-                Message message = new Message("Ok, Login Handled");
-                comm.sendMessage(message, dout);
+                User newUser = received.getUser();
+                if(DataBaseManagement.loginUser(newUser.getEmail(), newUser.getPassword())) {
+                    Message message = new Message(OK_ID);
+                    comm.sendMessage(message, dout);
+                }
+                else{
+                    Message message = new Message(ERROR_ID);
+                    comm.sendMessage(message, dout);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

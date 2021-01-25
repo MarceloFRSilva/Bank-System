@@ -71,4 +71,7 @@ public class User implements Serializable{
     public User(int accountNumber){
         this.accountNumber = accountNumber;
     }
+
+    public User(){
+    }
 }

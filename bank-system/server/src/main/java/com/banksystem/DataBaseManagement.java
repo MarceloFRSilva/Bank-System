@@ -7,6 +7,23 @@ public class DataBaseManagement {
     private static String user = "root";
     private static String passwordDB = "password";
 
+    public static boolean loginUser(String email, String password){
+        String url = "jdbc:mysql://localhost:3306/bank_system?bank_system=false";
+
+        String query = "SELET idNum FROM User WHERE email = ? AND password = ?";
+        try {
+            Connection con = DriverManager.getConnection(url, user, passwordDB);
+            // create the mysql insert preparedstatement
+            PreparedStatement statement =con.prepareStatement(query);
+            statement.setString(1, email);
+            statement.setString(1, password);
+            ResultSet rs = statement.executeQuery(query);
+            return rs.next();
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+
     public static int createNewUser(String first_name, String last_name, String email, String phone_number, String password){
         String url = "jdbc:mysql://localhost:3306/bank_system?bank_system=false";
 

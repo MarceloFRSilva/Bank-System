@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 public class UserInterfaceMenu {
 
@@ -13,6 +12,7 @@ public class UserInterfaceMenu {
     private static final String REGISTER_ID = "REGISTER_ID";
     private static final String EXIT_ID = "EXIT_ID";
     private static final String OK_ID = "OK_ID";
+    private static final String ERROR_ID = "ERROR_ID";
     private static Client client;
 
     public static void userInterfaceLauncher(){
@@ -48,7 +48,15 @@ public class UserInterfaceMenu {
     private static void processRequest(String option, CommunicationLibrary commLibrary){
         if(option.equals("1")) {
             try {
+                System.out.print("Email: ");
+                String email = getUserInput();
+                Console console = System.console() ;
+                char[] password = console.readPassword("Enter password: ");
                 Message message = new Message(LOGIN_ID);
+                User user = new User();
+                user.setEmail(email);
+                user.setPassword(String.valueOf(password));
+                message.setUser(user);
                 commLibrary.sendMessage(message);
                 Message received = commLibrary.getMessage();
                 System.out.println(received.getText());

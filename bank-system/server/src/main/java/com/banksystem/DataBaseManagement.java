@@ -1,28 +1,67 @@
 package com.banksystem;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class DataBaseManagement {
 
     private static String user = "root";
-    private static String password = "password";
+    private static String passwordDB = "password";
 
-    public static void createNewUser(){
-        String url = "jdbc:mysql://localhost:3306/test?bank_system=false";
+    public static int createNewUser(String first_name, String last_name, String email, String phone_number, String password){
+        String url = "jdbc:mysql://localhost:3306/bank_system?bank_system=false";
 
-        String query = "SELECT VERSION()";
+        String query = "INSERT INTO User (idNum, password, firstName, lastName, email, phoneNumber) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection con = DriverManager.getConnection(url, user, password);
-             Statement st = con.createStatement();
-             ResultSet rs = st.executeQuery(query)) {
-            if (rs.next()) {
-                System.out.println(rs.getString(1));
-            }
+        try {
+            Connection con = DriverManager.getConnection(url, user, passwordDB);
+
+            int accountNumber = generateRandom(con);
+            PreparedStatement preparedStmt = con.prepareStatement(query);
+            preparedStmt.setInt     (1, accountNumber);
+            preparedStmt.setString  (2, password);
+            preparedStmt.setString  (3, first_name);
+            preparedStmt.setString  (4, last_name);
+            preparedStmt.setString  (5, email);
+            preparedStmt.setInt     (6, Integer.parseInt(phone_number));
+
+            // execute the preparedstatement
+            preparedStmt.execute();
+
+            con.close();
+            return accountNumber;
         } catch (SQLException ex) {
+            ex.printStackTrace();
+            return -1;  //Error
+        }
+    }
+
+    private static int generateRandom(Connection con){
+        System.out.println("Generate new account number.");
+        int upperBound = 1000000000;
+        int lowerBound = 100000000;
+        int random_int = (int)(Math.random() * (upperBound - lowerBound + 1) + lowerBound);
+        while(true) {
+            try {
+                if (!checkIfExistsAccountNumber(random_int, con)) break;
+            } catch (SQLException throwables) {
+                continue;
+            }
+            random_int = (int)(Math.random() * (upperBound - lowerBound + 1) + lowerBound);
+        }
+        return random_int;
+    }
+
+    public static boolean checkIfExistsAccountNumber(int accountNumber, Connection con) throws SQLException {
+
+        String query = "SELET * FROM User WHERE idNum = ?";
+        try {
+            // create the mysql insert preparedstatement
+            PreparedStatement statement =con.prepareStatement(query);
+            statement.setInt(1, accountNumber);
+            ResultSet rs = statement.executeQuery(query);
+            return rs.next();
+        } catch (SQLException ex) {
+            return false;
         }
     }
 }

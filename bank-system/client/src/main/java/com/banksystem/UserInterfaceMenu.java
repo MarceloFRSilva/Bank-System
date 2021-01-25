@@ -24,6 +24,7 @@ public class UserInterfaceMenu {
                 continue;
             }
         }
+        System.out.println("Welcome to the New Bank.");
         Display.firstUserMenuDisplay();
         String option = getUserInput();
         while(true) {
@@ -84,6 +85,7 @@ public class UserInterfaceMenu {
                 System.out.println(received.getText());
                 if(received.getText().equals(OK_ID)){
                     System.out.println("User created successfully");
+                    System.out.println("Account ID: " + received.getUser().getAccountNumber());
                     client = new Client(first_name, last_name, email, phone_number, String.valueOf(password));
                 }
             } catch (Exception e) {

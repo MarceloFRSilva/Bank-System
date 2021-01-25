@@ -61,9 +61,10 @@ public class ServerCommunicationHandler extends Thread {
         if(received.getText().equals(REGISTER_ID)){
             System.out.println("The register request was sent to the server");
             try {
-                String temp = received.getUser().getFirst_name();
-                System.out.println(temp);
+                User newUser = received.getUser();
+                int accountNumber = DataBaseManagement.createNewUser(newUser.getFirst_name(), newUser.getLast_name(), newUser.getEmail(), newUser.getPhone_number(), newUser.getPassword());
                 Message message = new Message(OK_ID);
+                message.setUser(new User(accountNumber));
                 comm.sendMessage(message, dout);
             } catch (Exception e) {
                 e.printStackTrace();

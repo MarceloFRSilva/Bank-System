@@ -28,6 +28,9 @@ bank-system/client/*.iml
 bank-system/server/*.iml
 bank-system/common-interface/*.iml
 bank-system/*.iml
+bank-system/bank-worker/*.iml
+bank-system/bank-worker/target/*
+front-end/
 
 #ignore maven compilation files
 bank-system/client/target/*

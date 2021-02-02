@@ -65,7 +65,7 @@ def dropTables(pswd):
 def deleteDB(pswd):
     connection = pymysql.connect(host = 'localhost',user = 'root', port = 3306, password = pswd)
     myCursor = connection.cursor()
-    myCursor.execute("DROP DATABASEbank_system;")
+    myCursor.execute("DROP DATABASE bank_system;")
     connection.commit()
     print("Database bank_system deleted")
     connection.close()

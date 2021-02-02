@@ -8,17 +8,19 @@ public class DataBaseManagement {
     private static String passwordDB = "password";
 
     public static boolean loginUser(String email, String password){
+        System.out.println(email + "  " + password);
         String url = "jdbc:mysql://localhost:3306/bank_system?bank_system=false";
 
-        String query = "SELET idNum FROM User WHERE email = ? AND password = ?";
+        String query = "SELECT idNum FROM User WHERE email = ? AND password = ?";
         try {
             Connection con = DriverManager.getConnection(url, user, passwordDB);
             // create the mysql insert preparedstatement
             PreparedStatement statement =con.prepareStatement(query);
             statement.setString(1, email);
-            statement.setString(1, password);
+            statement.setString(2, password);
             ResultSet rs = statement.executeQuery(query);
-            return rs.next();
+            System.out.println(rs.next());
+            return true;
         } catch (SQLException ex) {
             return false;
         }
@@ -70,12 +72,13 @@ public class DataBaseManagement {
 
     public static boolean checkIfExistsAccountNumber(int accountNumber, Connection con) throws SQLException {
 
-        String query = "SELET * FROM User WHERE idNum = ?";
+        String query = "SELECT * FROM User WHERE idNum = ?";
         try {
             // create the mysql insert preparedstatement
-            PreparedStatement statement =con.prepareStatement(query);
+            PreparedStatement statement = con.prepareStatement(query);
             statement.setInt(1, accountNumber);
             ResultSet rs = statement.executeQuery(query);
+            System.out.println(rs.next());
             return rs.next();
         } catch (SQLException ex) {
             return false;

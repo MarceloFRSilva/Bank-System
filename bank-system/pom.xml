@@ -13,6 +13,7 @@
         <module>common-interface</module>
         <module>client</module>
         <module>server</module>
+        <module>bank-worker</module>
     </modules>
 
     <properties>
